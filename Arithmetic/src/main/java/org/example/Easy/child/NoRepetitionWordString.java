@@ -1,4 +1,4 @@
-package org.Easy.child;
+package org.example.Easy.child;
 
 /**
  * @description: 无重复子串计算

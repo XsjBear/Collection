@@ -1,4 +1,4 @@
-package org.Easy.twoSum;
+package org.example.Easy.twoSum;
 
 /**
  * @description: 两数相加

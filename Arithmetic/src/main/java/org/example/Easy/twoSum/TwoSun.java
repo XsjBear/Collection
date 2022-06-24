@@ -1,4 +1,4 @@
-package org.Easy.twoSum;
+package org.example.Easy.twoSum;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +27,7 @@ public class TwoSun {
      */
     public int[] twoSum(int[] nums, int target) {
         // 结果集
-        Map<Integer,Integer> map = new HashMap<>(nums.length - 1);
+        Map<Integer,Integer> map = new HashMap<Integer,Integer>(nums.length - 1);
         for (int i = 0; i < nums.length; i++) {
             if (map.containsKey(target - nums[i])){
                 return new int[]{i,map.get(target - nums[i])};
