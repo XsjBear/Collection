@@ -1,6 +1,7 @@
 package org.example.io.channel;
 
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.example.io.channel.Enum.FileTypeEnum;
 
 import java.io.IOException;
@@ -19,6 +20,8 @@ import java.util.Map;
  * @date 2022年06月24日 18:15
  */
 public class TransferService {
+
+
 
 
     /**
@@ -121,6 +124,8 @@ public class TransferService {
             if (null == selector.selectedKeys()){
                 continue;
             }
+
+            System.out.println();
             Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
             while (iterator.hasNext()){
                 // 获取选择键并处理
@@ -128,22 +133,35 @@ public class TransferService {
 
                 if (selectionKey.isAcceptable()){
                     // 新连接事件
+                    System.out.println("新");
                 } else if (selectionKey.isReadable()) {
                     // 读事件
+                    System.out.println("读");
                 } else if (selectionKey.isWritable()) {
-                    // 些事件
+                    // 写事件
+                    System.out.println("写");
                 } else if (selectionKey.isConnectable()) {
                     // 是否已连接
+                    System.out.println("已连接");
                 }
+                // 手动移除事件，如果不手动移除 Selector 不会自己移除，会导致重复处理.
+                iterator.remove();
             }
-            // 手动移除事件，如果不手动移除 Selector 不会自己移除，会导致重复处理.
-            iterator.remove();
         }
 
     }
 
 
+    public static void main(String[] args) {
 
+        TransferService transferService = new TransferService();
+        try {
+            transferService.startService();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
 
 }

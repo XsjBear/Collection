@@ -17,13 +17,12 @@ import java.nio.charset.Charset;
  * @author: Xsj
  * @create: 2022-06-23 20:05
  **/
-@Slf4j
 public class TransferClient {
 
     /**
      * 发送文件路径
      */
-    private static final String SEND_FILE_PATH = "";
+    private static final String SEND_FILE_PATH = "C:\\Users\\xiongshijun\\Desktop\\1.txt";
 
     /**
      * 编码
@@ -57,9 +56,17 @@ public class TransferClient {
             // 设置为非阻塞连接
             socketChannel.configureBlocking(false);
 
+            while (!socketChannel.finishConnect()){
+                Thread.sleep(100);
+                System.out.println("等待连接中........");
+            }
+
+
 
 
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
@@ -67,8 +74,14 @@ public class TransferClient {
     }
 
 
-
-
+    public static void main(String[] args) {
+        TransferClient transferClient = new TransferClient();
+        try {
+            transferClient.sendFile();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 
