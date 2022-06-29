@@ -7,6 +7,7 @@ import org.example.io.channel.Enum.FileTypeEnum;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
+import java.net.StandardSocketOptions;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
 import java.nio.charset.Charset;
@@ -134,6 +135,23 @@ public class TransferService {
                 if (selectionKey.isAcceptable()){
                     // 新连接事件
                     System.out.println("新");
+                    ServerSocketChannel socketChannel = (ServerSocketChannel) selectionKey.channel();
+
+                    SocketChannel accept = socketChannel.accept();
+                    if (accept == null){
+                        continue;
+                    }
+                    accept.configureBlocking(false);
+
+                    accept.setOption(StandardSocketOptions.TCP_NODELAY,true);
+                    accept.register(selector,SelectionKey.OP_READ);
+
+                    Session session = new Session();
+                    session.clientAddress = (InetSocketAddress) accept.getRemoteAddress();
+                    clientMap.put(accept,session);
+                    System.out.println(accept.getRemoteAddress() + "连接成功");
+
+
                 } else if (selectionKey.isReadable()) {
                     // 读事件
                     System.out.println("读");
