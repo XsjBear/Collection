@@ -1,4 +1,4 @@
-package org.example.io.Thread;
+package org.example.io.Thread.TaskDeal;
 
 import com.alibaba.fastjson.JSON;
 
@@ -80,6 +80,7 @@ public class Demo03 {
             synchronized (lock){
                 // 业务处理
                 addContent.setResult(addContent.getContent());
+                Thread.sleep(5);
             }
             return addContent;
         }
